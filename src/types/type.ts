@@ -8,4 +8,28 @@ export type WorksObject = {
   twitter_hash_tag: string | null;
   has_episodes: boolean;
   copyright: string | null;
+  series_id: string | null;
+};
+
+export type Data = {
+  id: string;
+  title: string;
+  twitterUsername: string;
+  officialSiteUrl: string;
+  noEpisodes: boolean;
+  seasonName: string | null;
+  seasonYear: number | null;
+  image: {
+    copyright: string;
+  } | null;
+  seriesList: {
+    nodes:
+      | [
+          {
+            id: string;
+            name: string;
+          }
+        ]
+      | [];
+  };
 };
