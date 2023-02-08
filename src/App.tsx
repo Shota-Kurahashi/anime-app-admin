@@ -1,11 +1,25 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
+import axios from "axios";
 import React, { FC } from "react";
 import { data } from "./data";
+import { titles } from "./titles";
 
-import { WorksObject } from "./types/type";
+import { TmdbData, WorksObject } from "./types/type";
+
+const allTitle = titles;
 
 const App: FC = () => {
+  const [result, setResult] = React.useState<
+    {
+      title: string;
+      series_title: string | null;
+      media_type_id: number;
+      poster_path: string | null;
+    }[]
+  >([]);
+  const [isShow, setIsShow] = React.useState(false);
   const objects: WorksObject[] = data.map((node) => {
     const seriesList = node?.seriesList?.nodes;
     const seriesListLength = seriesList?.length;
@@ -47,35 +61,65 @@ const App: FC = () => {
     };
   });
 
-  console.log(objects);
+  const onClickHandler = async () => {
+    const result = allTitle.map(async (d) => {
+      const datas = await axios
+        .get<TmdbData>(
+          `https://api.themoviedb.org/3/search/tv?api_key=0&query=${d.title}&language=ja&page=1`
+        )
+        .then((res) => res.data);
+
+      return {
+        title: d.title,
+        series_title: d.series_title ?? null,
+        media_type_id: 1,
+        poster_path: datas?.results?.[0]?.poster_path ?? null,
+      };
+    });
+
+    const results = await Promise.all(result);
+
+    setResult(results);
+  };
 
   return (
-    <div>
-      [
-      {objects.map((object, index) => (
-        <div key={object.series_title ?? index}>
-          {`{title:"${object.title}",series_title:${
-            object.series_title === null ? null : `"${object.series_title}"`
-          },sub_title:${object.sub_title},media_type_id:${
-            object.media_type_id
-          },official_site:${
-            object.official_site_url === null
-              ? null
-              : `"${object.official_site_url}"`
-          },official_twitter_name:${
-            object.official_twitter_name === null
-              ? null
-              : `"${object.official_twitter_name}"`
-          },twitter_hash_tag:${object.twitter_hash_tag},has_episodes:${
-            object.has_episodes
-          },copyright:${
-            object.copyright === null ? null : `"${object.copyright}"`
-          },series_id:${
-            object.series_id === null ? null : `"${object.series_id}"`
-          }},`}
+    <div className="p-10">
+      <button onClick={() => setIsShow((prev) => !prev)}>表示</button>[
+      {isShow &&
+        objects?.map((object, index) => (
+          <div key={object.series_title ?? index}>
+            {`{title:"${object.title}",series_title:${
+              object.series_title === null ? `""` : `"${object.series_title}"`
+            },sub_title:${object.sub_title},media_type_id:${
+              object.media_type_id
+            },official_site:${
+              object.official_site_url === null
+                ? null
+                : `"${object.official_site_url}"`
+            },official_twitter_name:${
+              object.official_twitter_name === null
+                ? null
+                : `"${object.official_twitter_name}"`
+            },twitter_hash_tag:${object.twitter_hash_tag},has_episodes:${
+              object.has_episodes
+            },copyright:${
+              object.copyright === null ? null : `"${object.copyright}"`
+            },series_id:${
+              object.series_id === null ? null : `"${object.series_id}"`
+            }},`}
+          </div>
+        ))}
+      ]<button onClick={onClickHandler}>fetch</button>
+      {result?.map((d, index) => (
+        <div key={index}>
+          {`
+          {title:"${d.title}",image:${
+            d.poster_path === null ? null : `"${d.poster_path}"`
+          },series_title:${
+            d.series_title === null ? null : `"${d.series_title}"`
+          },media_type_id:${d.media_type_id}},`}
         </div>
       ))}
-      ]
     </div>
   );
 };
