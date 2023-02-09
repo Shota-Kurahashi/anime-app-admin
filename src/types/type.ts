@@ -9,6 +9,8 @@ export type WorksObject = {
   has_episodes: boolean;
   copyright: string | null;
   series_id: string | null;
+  season_name: string | null;
+  season_year: number | null;
 };
 
 export type Data = {

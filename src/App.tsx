@@ -3,8 +3,8 @@
 /* eslint-disable camelcase */
 import axios from "axios";
 import React, { FC } from "react";
-import { data } from "./data";
-import { titles } from "./titles";
+import { data } from "./data/data";
+import { titles } from "./data/titles";
 
 import { TmdbData, WorksObject } from "./types/type";
 
@@ -58,6 +58,8 @@ const App: FC = () => {
       series_id: seriesListLength
         ? node?.seriesList?.nodes[seriesListLength - 1]?.id
         : null,
+      season_name: node.seasonName ?? null,
+      season_year: node.seasonYear ?? null,
     };
   });
 
@@ -106,6 +108,10 @@ const App: FC = () => {
               object.copyright === null ? null : `"${object.copyright}"`
             },series_id:${
               object.series_id === null ? null : `"${object.series_id}"`
+            },season_name:${
+              object.season_name === null ? null : `"${object.season_name}"`
+            },season_year:${
+              object.season_year === null ? null : `${object.season_year}`
             }},`}
           </div>
         ))}
