@@ -50,7 +50,7 @@ const App: FC = () => {
           ? node?.twitterUsername
           : null,
       twitter_hash_tag: null,
-      has_episodes: !node?.noEpisodes,
+      has_episodes: node.episodes?.nodes.length > 0,
       copyright:
         node?.image?.copyright !== "" && node?.image?.copyright !== undefined
           ? node?.image?.copyright.replace(/”/g, "")

@@ -34,6 +34,16 @@ export type Data = {
         ]
       | [];
   };
+  episodes: {
+    nodes:
+      | [
+          {
+            id: "U2VyaWVzLTIyOTE=";
+            name: "京セラ発オリジナルアニメ";
+          }
+        ]
+      | [];
+  };
 };
 
 export type TmdbData = {
