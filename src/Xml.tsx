@@ -21,8 +21,6 @@ const filterData = () => {
     })
     .filter((d) => d !== null);
 
-  console.log(result);
-
   return result;
 };
 
@@ -69,8 +67,6 @@ export const Xml = () => {
     };
     reader.readAsText(file);
   };
-
-  console.log(result);
 
   return (
     <div>

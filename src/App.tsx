@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable camelcase */
 import React, { FC } from "react";
+import { Episodes } from "./Episodes";
 import { useRefactorData } from "./hooks/refactorData";
 
 import { Xml } from "./Xml";
@@ -12,6 +13,7 @@ const App: FC = () => {
 
   return (
     <div className="p-10">
+      <Episodes />
       <Xml />
       <button onClick={() => setIsShow((prev) => !prev)}>表示</button>[
       {isShow &&
