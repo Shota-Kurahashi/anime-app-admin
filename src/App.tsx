@@ -4,12 +4,15 @@
 import React, { FC } from "react";
 import { useRefactorData } from "./hooks/refactorData";
 
+import { Xml } from "./Xml";
+
 const App: FC = () => {
   const [isShow, setIsShow] = React.useState(false);
   const { refactorAnnictData } = useRefactorData();
 
   return (
     <div className="p-10">
+      <Xml />
       <button onClick={() => setIsShow((prev) => !prev)}>表示</button>[
       {isShow &&
         refactorAnnictData()?.map((object, index) => (
