@@ -1,6 +1,35 @@
 import React, { useRef, useState } from "react";
+import { AllTitleDataShobo } from "./data/AllshoboTitle";
+import { NOTTIDDATA } from "./data/notTidData";
+
+const notTidData = NOTTIDDATA;
+const allTidData = AllTitleDataShobo;
+
+const filterData = () => {
+  const result = notTidData
+    .map((d) => {
+      const flag = allTidData.find((e) => e.title === d.series_title);
+
+      if (flag) {
+        return {
+          ...d,
+          tid: flag.TID,
+        };
+      }
+
+      return null;
+    })
+    .filter((d) => d !== null);
+
+  console.log(result);
+
+  return result;
+};
 
 export const Xml = () => {
+  const [showData, setShowData] = useState(false);
+
+  filterData();
   const inputRef = useRef<HTMLInputElement>(null);
   const [result, setResult] = useState<
     {
@@ -46,6 +75,7 @@ export const Xml = () => {
   return (
     <div>
       <input type="file" ref={inputRef} onChange={handleFileChange} />
+      <button onClick={() => setShowData((p) => !p)}>showXML</button>
 
       {result.map((item) => (
         <div id={item.TID}>{`{
@@ -54,6 +84,16 @@ export const Xml = () => {
           SubTitles: "${item.SubTitles}"
         },`}</div>
       ))}
+
+      {showData &&
+        filterData().map((item) => (
+          <div id={item?.tid}>{`{
+            title: "${item?.title}",
+            tid: ${item?.tid},
+            media_type_id: ${item?.media_type_id},
+            series_title: "${item?.series_title}"
+          },`}</div>
+        ))}
     </div>
   );
 };
