@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AllTitleDataShobo } from "./data/AllshoboTitle";
 import { HasTidData } from "./data/hasTidData";
 
@@ -79,13 +79,21 @@ const filterEpisodes = () => {
 };
 
 export const Episodes = () => {
+  const [isShow, setIsShow] = useState(false);
   const episodes = filterEpisodes();
 
   return (
     <div>
-      {episodes.map((episode) => {
-        const els = episode.map((item) => (
-          <div>{`{
+      <button
+        className="bg-indigo-500 px-4 py-2 text-white"
+        onClick={() => setIsShow((p) => !p)}
+      >
+        episode表示
+      </button>
+      {isShow &&
+        episodes.map((episode) => {
+          const els = episode.map((item) => (
+            <div>{`{
           work_id: ${item?.work_id},
           title:"${item?.title}",
           number:${item?.number},
@@ -94,10 +102,10 @@ export const Episodes = () => {
           start_time:"${item?.start_time}",
           end_time:"${item?.end_time}",
           },`}</div>
-        ));
+          ));
 
-        return <div>{els}</div>;
-      })}
+          return <div>{els}</div>;
+        })}
     </div>
   );
 };

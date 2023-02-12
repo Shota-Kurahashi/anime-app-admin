@@ -4,6 +4,7 @@
 import React, { FC } from "react";
 import { Episodes } from "./Episodes";
 import { useRefactorData } from "./hooks/refactorData";
+import { RefactorData } from "./RefactorData";
 
 import { Xml } from "./Xml";
 
@@ -15,7 +16,13 @@ const App: FC = () => {
     <div className="p-10">
       <Episodes />
       <Xml />
-      <button onClick={() => setIsShow((prev) => !prev)}>表示</button>[
+      <RefactorData />
+      <button
+        className="bg-indigo-500 px-4 py-2 text-white"
+        onClick={() => setIsShow((prev) => !prev)}
+      >
+        表示
+      </button>
       {isShow &&
         refactorAnnictData()?.map((object, index) => (
           <div key={object.series_title ?? index}>
@@ -32,7 +39,6 @@ const App: FC = () => {
             },tid:${object.tid === null ? null : object.tid}},`}
           </div>
         ))}
-      ]
     </div>
   );
 };

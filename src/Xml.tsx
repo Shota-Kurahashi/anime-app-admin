@@ -71,7 +71,12 @@ export const Xml = () => {
   return (
     <div>
       <input type="file" ref={inputRef} onChange={handleFileChange} />
-      <button onClick={() => setShowData((p) => !p)}>showXML</button>
+      <button
+        className="bg-indigo-500 px-4 py-2 text-white"
+        onClick={() => setShowData((p) => !p)}
+      >
+        showXML
+      </button>
 
       {result.map((item) => (
         <div id={item.TID}>{`{
